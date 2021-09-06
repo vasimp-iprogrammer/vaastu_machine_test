@@ -9,6 +9,7 @@ import 'package:vastu_machine_test/compass_tool/compass_tool.dart';
 import 'package:vastu_machine_test/enums/connectivity_status.dart';
 import 'package:vastu_machine_test/interfaces/common_interface.dart';
 import 'package:vastu_machine_test/utility/utils.dart';
+import 'package:vastu_machine_test/vaastu_score/vaastu_score_check.dart';
 import 'package:vastu_machine_test/widget/custom_image.dart';
 import 'package:vastu_machine_test/widget/custom_textfield.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -142,62 +143,71 @@ implements CommonInterface{
                   ),
            ),
            SizedBox(height:10),
-            Container(
-              decoration: BoxDecoration(
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => VaastuScoreCheckScreen(),
+                  )
+                );
+              },
+                          child: Container(
+                decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: ColorUtils.color_white,
         ),
-              
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                                      child: ClipRRect(
-                        child: Image.asset(ASSETUTILS.ASSETS_VAASTU_SCRORE, fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(16),
+                
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                                        child: ClipRRect(
+                          child: Image.asset(ASSETUTILS.ASSETS_VAASTU_SCRORE, fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
-                    ),
-                    SizedBox(width:20),
-                    Expanded(
-                      
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                        CustomTextField(
-                                isVisible: true,
-                                text: "Vaastu Score Check",
-                                colors: ColorUtils.color_black,
-                                fontWeight: FontWeight.bold,
-                                size: 14,
-                                isBold: true,
-                              ),
-                              CustomTextField(
-                                isVisible: true,
-                                text: "Output Time: 1 min",
-                                colors: ColorUtils.color_labels_light,
-                                fontWeight: FontWeight.w400,
-                                size: 12,
-                                isBold: true,
-                              ),
-                              SizedBox(height:05),
-                              CustomTextField(
-                                isVisible: true,
-                                text: "Input the location of all the rooms in your home and get a vaastu score instantly",
-                                colors: ColorUtils.color_labels,
-                                fontWeight: FontWeight.w400,
-                                size: 12,
-                                isBold: true,
-                              ),
-                      ],),
-                    )
-                  ],
+                      SizedBox(width:20),
+                      Expanded(
+                        
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                          CustomTextField(
+                                  isVisible: true,
+                                  text: "Vaastu Score Check",
+                                  colors: ColorUtils.color_black,
+                                  fontWeight: FontWeight.bold,
+                                  size: 14,
+                                  isBold: true,
+                                ),
+                                CustomTextField(
+                                  isVisible: true,
+                                  text: "Output Time: 1 min",
+                                  colors: ColorUtils.color_labels_light,
+                                  fontWeight: FontWeight.w400,
+                                  size: 12,
+                                  isBold: true,
+                                ),
+                                SizedBox(height:05),
+                                CustomTextField(
+                                  isVisible: true,
+                                  text: "Input the location of all the rooms in your home and get a vaastu score instantly",
+                                  colors: ColorUtils.color_labels,
+                                  fontWeight: FontWeight.w400,
+                                  size: 12,
+                                  isBold: true,
+                                ),
+                        ],),
+                      )
+                    ],
+                  ),
                 ),
-              ),
            
+              ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
@@ -287,7 +297,7 @@ CustomImage(
 
   @override
   initializingObjects() {
-    
+    print("home page");
   }
 
   @override

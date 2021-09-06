@@ -32,6 +32,11 @@ abstract class BaseState<Page extends BasePage> extends State<Page> {
   
 }
 mixin BasicPage<Page extends BasePage> on BaseState<Page> {
+   @override
+  void initState() {
+    initializingObjects();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +62,14 @@ mixin BasicPage<Page extends BasePage> on BaseState<Page> {
           child: body(),
           
         ),
+         bottomNavigationBar: Visibility(
+        visible: isBottomNavigationIsible(),
+        child: BottomAppBar(
+          elevation: 0.0,
+          color: Colors.white,
+          child: getBottomWidget(),
+        ),
+      ),
       //  backgroundColor: ColorUtils.color_app_bg,
         );
   }

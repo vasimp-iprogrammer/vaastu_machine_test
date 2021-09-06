@@ -149,7 +149,7 @@ implements CommonInterface{
 
   @override
   String pageTitle() {
-  return APPTITLES.HOME_PAGE;
+  return APPTITLES.COMPASS_TOOL;
   }
 
   @override

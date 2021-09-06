@@ -52,6 +52,9 @@ class ColorUtils {
 }
 class APPTITLES{
   static String HOME_PAGE="Vaastu Check";
+  static String VAASTU_SCORE_CHECK="Vaastu Score Check";
+  static String COMPASS_TOOL="Compass Tool";
+
 }
 
 class ASSETUTILS{
@@ -65,4 +68,8 @@ class ASSETUTILS{
   static String ASSETS_ARROW_LEFT= "assets/icons/arrow_left.png";
   static String ASSETS_ARROW_LIKE= "assets/icons/like.png";
   static String ASSETS_ARROW_VIEW= "assets/icons/view.png";
+}
+class ApiEndPoints{
+  static String BASE_URL = "https://luayn58dm9.execute-api.ap-south-1.amazonaws.com/stage/";
+  static String ROOMLIST = "vastu/getRoomList";
 }
