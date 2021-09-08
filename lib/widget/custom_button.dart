@@ -37,14 +37,17 @@ class CustomButton extends StatelessWidget {
               ),
             ),
       label: Flexible(
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w800,
-              color: textColor,
-              ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: textColor,
+                ),
+          ),
         ),
       ),
       style: ElevatedButton.styleFrom(

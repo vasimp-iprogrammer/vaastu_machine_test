@@ -9,6 +9,7 @@ import 'package:vastu_machine_test/interfaces/common_interface.dart';
 import 'package:vastu_machine_test/server/api_auth_repository.dart';
 import 'package:vastu_machine_test/utility/utils.dart';
 import 'package:vastu_machine_test/vaastu_score/model/roomlist_response_model.dart';
+import 'package:vastu_machine_test/vaastu_score/view/direction_details_screen.dart';
 import 'package:vastu_machine_test/widget/custom_button.dart';
 import 'package:vastu_machine_test/widget/custom_image.dart';
 import 'package:vastu_machine_test/widget/custom_progress_dialog.dart';
@@ -17,33 +18,31 @@ import 'package:vastu_machine_test/widget/custom_textfield.dart';
 class SelectRoomScreen extends BasePage{
   late String roomDirection;
   late int index;
+  late List<dynamic> prevSelectedRoomList;
  @override
   _SelectRoomScreen createState() => _SelectRoomScreen();
-  SelectRoomScreen({required this.roomDirection,required this.index});
+  SelectRoomScreen({required this.roomDirection,
+  required this.index,
+  required this.prevSelectedRoomList});
 }
 class _SelectRoomScreen extends BaseState<SelectRoomScreen>
 with BasicPage
 implements CommonInterface{
   String roomDirection="";
   late int index;
-  List<String> _texts = [
-    "InduceSmile.com",
-    "Flutter.io",
-    "google.com",
-    "youtube.com",
-    "yahoo.com",
-    "gmail.com"
-  ];
- late List<bool> _isChecked;
-  List<String> roomList=[];
-  List<String> selectedRoomList=[];
+ 
+ late List<bool> _isChecked=[];
+  List<dynamic> roomList=[];
+  List<dynamic> selectedRoomList=[];
+  List<dynamic> prevSelectedRoomList=[];
+  late CustomProgressDialog customProgressDialog;
   @override
   Widget appBarLeftIcon() {
   return CustomImage(
            size: 12,
            assetPath: ASSETUTILS.ASSETS_ARROW_LEFT,
             commonInterface: this,
-           type: '',
+           type: SourceType.BACK.toString(),
         );
   }
 
@@ -78,13 +77,29 @@ implements CommonInterface{
                                               isBold: false,
                                             ),
                   ),
-                                          CustomTextField(
-                                            isVisible: true,
-                                            text: "READ NOW",
-                                            colors: ColorUtils.color_red,
-                                            fontWeight: FontWeight.bold,
-                                            size: 14,
-                                            isBold: true,
+                                          GestureDetector(
+                                                onTap: (){
+                                                  Navigator.of(context).push(
+                                                  MaterialPageRoute(builder: 
+                                                  (context)=>DirectionDetailsSCreen(roomDirection: roomDirection))  
+                                                  
+                                                  );
+                                                },                                     
+                                            //  child: CustomTextField(
+                                            //   isVisible: true,
+                                            //   text: "READ NOW",
+                                            //   colors: ColorUtils.color_red,
+                                            //   fontWeight: FontWeight.bold,
+                                            //   size: 14,
+                                            //   isBold: true,
+                                            // ),
+                                            child: Text("READ NOW",
+                    style: TextStyle(
+                      color: ColorUtils.color_red,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FontFamily.NOTOSANS_BOLD,
+                      fontSize: 15,
+                      letterSpacing: 1.0)),
                                           ),
                 ],),
               ),
@@ -105,60 +120,21 @@ implements CommonInterface{
                                                 ),
                  ),
                ),
-              ListView.builder(
-              itemCount: roomList.length,
-              scrollDirection: Axis.vertical,
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    CheckboxListTile(
-                       value: _isChecked[index],
-                      title: Text(roomList[index]),
-                     controlAffinity: ListTileControlAffinity.leading,
-                     activeColor: ColorUtils.color_red,
-                    
-                      onChanged: (val) {
-                        setState(
-                          () {
-                            _isChecked[index] = val!;
-                            print(_isChecked[index]);
-                            print(roomList[index]);
-                            if(val==true){
-                              if(roomList.length>0&& !selectedRoomList.contains(roomList[index]))
-                              selectedRoomList.add(roomList[index]);
-                            }else{
-                              if(selectedRoomList.length>0 && selectedRoomList.contains(roomList[index]))
-                                selectedRoomList.remove(roomList[index]);
-                            }
-
-                            print(selectedRoomList);
-                          },
-                        );
-                      },
-                    ),
-                    Divider(
-                      color: ColorUtils.color_black,
-                    ),
-                  ],
-                );
-              },
-      ),
+               getApiList()
             ],
           ),
         ),
    );
   }
   void getRoomList()async{
-    //  CustomProgressDialog customProgressDialog = CustomProgressDialog(context: context);
-    // await customProgressDialog.showProgressDialog();
+     customProgressDialog = CustomProgressDialog(context: context);
+    await customProgressDialog.showProgressDialog();
   getResponse().then((value) {
     setState(() {
-     // customProgressDialog.hideProgressDialog();
+      customProgressDialog.hideProgressDialog();
       roomList.clear();
       roomList.addAll(value.payload.data.roomList);
-      print("list ${roomList.length}");
+     
        _isChecked = List<bool>.filled(roomList.length, false);
     });
   });
@@ -172,6 +148,7 @@ implements CommonInterface{
   Widget getBottomWidget() {
     return GestureDetector(
           onTap: (){
+            
              Navigator.of(context).pop(selectedRoomList); 
           },
           child: Container(
@@ -188,7 +165,7 @@ implements CommonInterface{
                       
                       Text("SELECT ROOMS",
                         style: TextStyle(color: ColorUtils.color_white,
-                        fontSize: 12),),
+                        fontSize: 16),),
                      
                     ],
                   )),
@@ -199,9 +176,20 @@ implements CommonInterface{
     super.initState();
     roomDirection = widget.roomDirection.toString();
     index=widget.index;
-    print("data "+roomDirection);
+    prevSelectedRoomList = widget.prevSelectedRoomList;
+   // print("data "+roomDirection);
+    if(prevSelectedRoomList.isNotEmpty)
+    selectedRoomList.addAll(prevSelectedRoomList);
+ //   if(prevSelectedRoomList.isEmpty){
+   Future.delayed(Duration.zero, () {
+      getRoomList();
+   });
+        
+    // }else{
+    //   roomList.clear();
+    //   roomList.addAll(prevSelectedRoomList);
+    // }
     
-     getRoomList();
   }
   @override
   initializingObjects() {
@@ -225,12 +213,12 @@ implements CommonInterface{
 
   @override
   onBackPressed(context) {
-   Navigator.of(context).pop();
+   Navigator.of(context).pop(selectedRoomList);
   }
 
   @override
   String pageTitle() {
-    print("page title "+roomDirection);
+   // print("page title "+roomDirection);
     return roomDirection;
   }
 
@@ -241,12 +229,58 @@ implements CommonInterface{
   
     @override
     void onClick(String type) {
-      // TODO: implement onClick
+      if(type==SourceType.BACK.toString()){
+          Navigator.of(context).pop(selectedRoomList);
+        }
     }
   
     @override
     void onItemSelected(String type, model) {
     // TODO: implement onItemSelected
   }
+  Widget getApiList(){
+    return  ListView.builder(
+              itemCount: roomList.length,
+              scrollDirection: Axis.vertical,
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    CheckboxListTile(
+                       value: prevSelectedRoomList.contains(roomList[index])?true: _isChecked[index],
+                      title: Text(roomList[index],
+                      style: TextStyle(color: ColorUtils.color_room_list_labels),),
+                     controlAffinity: ListTileControlAffinity.leading,
+                     activeColor: ColorUtils.color_red,
+                    
+                      onChanged: (val) {
+                        setState(
+                          () {
+                            _isChecked[index] = val!;
+                           
+                            if(val==true){
+                              if(roomList.length>0&& !selectedRoomList.contains(roomList[index]))
+                              selectedRoomList.add(roomList[index]);
+                            }else{
+                              if(selectedRoomList.length>0 && selectedRoomList.contains(roomList[index]))
+                                selectedRoomList.remove(roomList[index]);
+                                prevSelectedRoomList.remove(roomList[index]);
+                            }
+
+                            
+                          },
+                        );
+                      },
+                    ),
+                    Divider(
+                      color: ColorUtils.color_black,
+                    ),
+                  ],
+                );
+              },
+      );
+  }
+  
 
 }

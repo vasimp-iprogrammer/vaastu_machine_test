@@ -74,5 +74,5 @@ mixin BasicPage<Page extends BasePage> on BaseState<Page> {
         );
   }
 
-  Widget body();
+  //Widget body();
 }

@@ -9,21 +9,24 @@ import 'package:vastu_machine_test/compass_tool/compass_tool.dart';
 import 'package:vastu_machine_test/enums/connectivity_status.dart';
 import 'package:vastu_machine_test/interfaces/common_interface.dart';
 import 'package:vastu_machine_test/utility/utils.dart';
-import 'package:vastu_machine_test/vaastu_score/vaastu_score_check.dart';
+import 'package:vastu_machine_test/vaastu_score/view/vaastu_score_check.dart';
 import 'package:vastu_machine_test/widget/custom_image.dart';
 import 'package:vastu_machine_test/widget/custom_textfield.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:video_player/video_player.dart';
 
-class HomePageScreen extends BasePage{
-  
-    @override
+class HomePageScreen extends BasePage {
+  @override
   _HomePageScreen createState() => _HomePageScreen();
 }
-class _HomePageScreen extends BaseState<HomePageScreen> 
-with BasicPage
-implements CommonInterface{
-  int _current=0;
-   final List<String> images = [
+
+class _HomePageScreen extends BaseState<HomePageScreen>
+    with BasicPage
+    implements CommonInterface {
+  int _current = 0;
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+  final List<String> images = [
     'https://images.unsplash.com/photo-1586882829491-b81178aa622e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
     'https://images.unsplash.com/photo-1586871608370-4adee64d1794?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2862&q=80',
     'https://images.unsplash.com/photo-1586901533048-0e856dff2c0d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
@@ -49,114 +52,118 @@ implements CommonInterface{
   }
 
   @override
-  Color backgroundColor()=>ColorUtils.color_app_bg;
+  Color backgroundColor() => ColorUtils.color_app_bg;
 
   @override
   Widget body() {
     return SingleChildScrollView(
-     child:Container(
+      child: Container(
         margin: EdgeInsets.fromLTRB(20, 10, 20, 30),
-       child: Column(
-         mainAxisAlignment: MainAxisAlignment.start,
-             crossAxisAlignment: CrossAxisAlignment.start,
-         children: [
-             Padding(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
               padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
-              child: 
-            new CustomTextField(
-                              isVisible: true,
-                              text: "Pick the ideal tool for you:",
-                              colors: ColorUtils.color_labels,
-                              fontWeight: FontWeight.bold,
-                              size: 14,
-                              isBold: true,
-                            ),),
-                            SizedBox(height:10),
-           Container(
-                  child: GestureDetector(
-                    onTap: (){
-                      print("Container clied");
-                     Navigator.of(context).push(
-                       MaterialPageRoute(
-                         builder: (context)=>CompassToolScreen()
-                       )
-                     );
-                    },
-                            child: Container(
-                            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: ColorUtils.color_white,
+              child: new CustomTextField(
+                isVisible: true,
+                text: "Pick the ideal tool for you:",
+                colors: ColorUtils.color_labels,
+                fontWeight: FontWeight.bold,
+                size: 14,
+                isBold: true,
               ),
-                      
-                      
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: GestureDetector(
+                onTap: () {
+                  print("Container clied");
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CompassToolScreen()));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: ColorUtils.color_white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: Stack(
                           children: [
-                            Expanded(
-                                              child: ClipRRect(
-                                child: Image.asset(ASSETUTILS.ASSETS_COMPASS_TOOl, fit: BoxFit.cover),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
+                            ClipRRect(
+                              child: Image.asset(ASSETUTILS.ASSETS_COMPASS_TOOl,
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            SizedBox(width:20),
-                            Expanded(
-                              
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                CustomTextField(
-                                        isVisible: true,
-                                        text: "Compass Tool",
-                                        colors: ColorUtils.color_black,
-                                        fontWeight: FontWeight.bold,
-                                        size: 14,
-                                        isBold: true,
-                                      ),
-                                      CustomTextField(
-                                        isVisible: true,
-                                        text: "Output Time: 1 min",
-                                        colors: ColorUtils.color_labels_light,
-                                        fontWeight: FontWeight.w400,
-                                        size: 12,
-                                        isBold: true,
-                                      ),
-                                      SizedBox(height:05),
-                                      CustomTextField(
-                                        isVisible: true,
-                                        text: "Point in the direction of specific room to know their suitability according to vaastu guidelines",
-                                        colors: ColorUtils.color_labels,
-                                        fontWeight: FontWeight.w400,
-                                        size: 12,
-                                        isBold: true,
-                                      ),
-                              ],),
-                            )
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(64, 25, 25, 25),
+                              child: Image.asset(
+                                  ASSETUTILS.ASSETS_COMPASS_SMALL,
+                                  fit: BoxFit.cover),
+                            ),
                           ],
-                        ),
-                      ),
-                 
+                        )),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomTextField(
+                                isVisible: true,
+                                text: "Compass Tool",
+                                colors: ColorUtils.color_black,
+                                fontWeight: FontWeight.bold,
+                                size: 14,
+                                isBold: true,
+                              ),
+                              SizedBox(height: 5),
+                              CustomTextField(
+                                isVisible: true,
+                                text: "Output Time: 1 min",
+                                colors: ColorUtils.color_labels_light,
+                                fontWeight: FontWeight.w400,
+                                size: 12,
+                                isBold: true,
+                              ),
+                              SizedBox(height: 05),
+                              CustomTextField(
+                                isVisible: true,
+                                text:
+                                    "Point in the direction of specific room to know their suitability according to vaastu guidelines",
+                                colors: ColorUtils.color_labels,
+                                fontWeight: FontWeight.w400,
+                                size: 12,
+                                isBold: true,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
-           ),
-           SizedBox(height:10),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
             GestureDetector(
-              onTap: (){
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => VaastuScoreCheckScreen(),
-                  )
-                );
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => VaastuScoreCheckScreen(),
+                ));
               },
-                          child: Container(
+              child: Container(
                 decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: ColorUtils.color_white,
-        ),
-                
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: ColorUtils.color_white,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
@@ -164,153 +171,210 @@ implements CommonInterface{
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Expanded(
-                                        child: ClipRRect(
-                          child: Image.asset(ASSETUTILS.ASSETS_VAASTU_SCRORE, fit: BoxFit.cover),
+                          child: Stack(children: [
+                        ClipRRect(
+                          child: Image.asset(ASSETUTILS.ASSETS_VAASTU_SCRORE,
+                              fit: BoxFit.cover),
                           borderRadius: BorderRadius.circular(16),
                         ),
-                      ),
-                      SizedBox(width:20),
+                      ])),
+                      SizedBox(width: 20),
                       Expanded(
-                        
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                          CustomTextField(
-                                  isVisible: true,
-                                  text: "Vaastu Score Check",
-                                  colors: ColorUtils.color_black,
-                                  fontWeight: FontWeight.bold,
-                                  size: 14,
-                                  isBold: true,
-                                ),
-                                CustomTextField(
-                                  isVisible: true,
-                                  text: "Output Time: 1 min",
-                                  colors: ColorUtils.color_labels_light,
-                                  fontWeight: FontWeight.w400,
-                                  size: 12,
-                                  isBold: true,
-                                ),
-                                SizedBox(height:05),
-                                CustomTextField(
-                                  isVisible: true,
-                                  text: "Input the location of all the rooms in your home and get a vaastu score instantly",
-                                  colors: ColorUtils.color_labels,
-                                  fontWeight: FontWeight.w400,
-                                  size: 12,
-                                  isBold: true,
-                                ),
-                        ],),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextField(
+                              isVisible: true,
+                              text: "Vaastu Score Check",
+                              colors: ColorUtils.color_black,
+                              fontWeight: FontWeight.bold,
+                              size: 14,
+                              isBold: true,
+                            ),
+                            SizedBox(height: 5),
+                            CustomTextField(
+                              isVisible: true,
+                              text: "Output Time: 1 min",
+                              colors: ColorUtils.color_labels_light,
+                              fontWeight: FontWeight.w400,
+                              size: 12,
+                              isBold: true,
+                            ),
+                            SizedBox(height: 05),
+                            CustomTextField(
+                              isVisible: true,
+                              text:
+                                  "Input the location of all the rooms in your home and get a vaastu score instantly",
+                              colors: ColorUtils.color_labels,
+                              fontWeight: FontWeight.w400,
+                              size: 12,
+                              isBold: true,
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
                 ),
-           
               ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    "VIDEO",
+                    style: TextStyle(
+                        color: ColorUtils.color_labels,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        letterSpacing: 1.0),
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "VIEW ALL",
+                      style: TextStyle(
+                          color: ColorUtils.color_red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          letterSpacing: 1.0),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
-              
               child: CarouselSlider.builder(
-          itemCount: images.length,
-          options: CarouselOptions(
-              autoPlay: true,
-              aspectRatio: 2.0,
-              enlargeCenterPage: true,
-          ),
-          itemBuilder: (context, index, realIdx) {
-              return Container(
-                 decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: ColorUtils.color_white,
-              ),
-                child: Center(
-                    child: Column(
+                itemCount: images.length,
+                options: CarouselOptions(
+                  autoPlay: true,
+                  aspectRatio: 2.0,
+                  enlargeCenterPage: true,
+                ),
+                itemBuilder: (context, index, realIdx) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: ColorUtils.color_white,
+                    ),
+                    child: Center(
+                        child: Column(
                       children: [
                         Expanded(
+                          flex: 1,
                           child: ClipRRect(
-                                borderRadius: BorderRadius.only(topLeft:Radius.circular(8),
-                                topRight:Radius.circular(8)),
-                                child: Image.network(images[index],
-                              fit: BoxFit.cover, 
-                              width: 1000,
-                              height: 1000,),
-                                              ),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8)),
+                            //     child: Image.network(images[index],
+                            //   fit: BoxFit.fill,
+                            //  ),
+                            child: Image.asset(ASSETUTILS.ASSETS_PICK,
+                                height: 350, width: 300, fit: BoxFit.cover),
+                          ),
                         ),
-                        
-                         Padding(
-                           padding: const EdgeInsets.all(8.0),
-                           child: Text("Ten things you should konw before puchansing a plot",
-                           style: TextStyle(
-                             color: ColorUtils.color_black,
-                             fontWeight: FontWeight.bold,
-                             fontSize: 14
-                           ),),
-                         ),   
-                         Row(
-                           children: [
-                             Expanded(
-                                                        child: Row(children: [
-CustomImage(
-               size: 12,
-               assetPath: ASSETUTILS.ASSETS_ARROW_LIKE,
-                commonInterface: this,
-               type: SourceType.BACK.toString(),
-          ),
-          Text("10 likes",
-          style: TextStyle(color: ColorUtils.color_red),)
-                               ],),
-                             ),
-                             Expanded(
-                                                        child: Row(children: [
-CustomImage(
-               size: 12,
-               assetPath: ASSETUTILS.ASSETS_ARROW_VIEW,
-                commonInterface: this,
-               type: SourceType.BACK.toString(),
-          ),
-          Text("10 views",
-          style: TextStyle(color: ColorUtils.color_red),)
-                               ],),
-                             ),
-                           ],
-                         )
+                        //               Flexible(
+                        //                                           child: AspectRatio(
+                        //   aspectRatio: _controller.value.aspectRatio,
+                        //   // Use the VideoPlayer widget to display the video.
+                        //   child: VideoPlayer(_controller),
+                        // ),
+                        //               ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Ten things you should konw before puchansing a plot",
+                            style: TextStyle(
+                                color: ColorUtils.color_black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  CustomImage(
+                                    size: 10,
+                                    assetPath: ASSETUTILS.ASSETS_ARROW_LIKE,
+                                    commonInterface: this,
+                                    type: SourceType.BACK.toString(),
+                                  ),
+                                  Text(
+                                    "10 likes",
+                                    style:
+                                        TextStyle(color: ColorUtils.color_red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  CustomImage(
+                                    size: 10,
+                                    assetPath: ASSETUTILS.ASSETS_ARROW_VIEW,
+                                    commonInterface: this,
+                                    type: SourceType.BACK.toString(),
+                                  ),
+                                  Text(
+                                    "10 views",
+                                    style:
+                                        TextStyle(color: ColorUtils.color_red),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     )),
-              );
-          },
-        ),
+                  );
+                },
+              ),
             )
-         ],
-       ),
-     ),
+          ],
+        ),
+      ),
     );
   }
 
   @override
   Widget getBottomWidget() {
-    return Container(
-     
-    );
+    return Container();
   }
 
   @override
   initializingObjects() {
     print("home page");
+    _controller = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    );
+    _initializeVideoPlayerFuture = _controller.initialize();
+
+    // Use the controller to loop the video.
+    _controller.setLooping(true);
   }
 
   @override
-  isAppBarVisible() =>true;
+  isAppBarVisible() => true;
 
   @override
   bool isBottomNavigationIsible() {
-   return false;
+    return false;
   }
 
   @override
   isNaviagtionDrawerVisible() {
-   return false;
+    return false;
   }
 
   @override
@@ -320,22 +384,21 @@ CustomImage(
 
   @override
   String pageTitle() {
-   return APPTITLES.HOME_PAGE;
+    return APPTITLES.HOME_PAGE;
   }
 
   @override
   void getText(String str, String type) {
-      // TODO: implement getText
-    }
-  
-    @override
-    void onClick(String type) {
-      // TODO: implement onClick
-    }
-  
-    @override
-    void onItemSelected(String type, model) {
-    // TODO: implement onItemSelected
+    // TODO: implement getText
   }
 
+  @override
+  void onClick(String type) {
+    // TODO: implement onClick
+  }
+
+  @override
+  void onItemSelected(String type, model) {
+    // TODO: implement onItemSelected
+  }
 }

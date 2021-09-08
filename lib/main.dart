@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vastu_machine_test/home/home_page.dart';
+import 'package:vastu_machine_test/splash/splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePageScreen(),
+      home: SplashScreen(),
     );
   }
 }

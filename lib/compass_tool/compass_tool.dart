@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:vastu_machine_test/base/base_page.dart';
+import 'package:vastu_machine_test/enums/connectivity_status.dart';
 import 'package:vastu_machine_test/interfaces/common_interface.dart';
 import 'package:vastu_machine_test/utility/utils.dart';
 import 'package:vastu_machine_test/widget/custom_image.dart';
@@ -23,7 +24,7 @@ implements CommonInterface{
            size: 12,
            assetPath: ASSETUTILS.ASSETS_ARROW_LEFT,
             commonInterface: this,
-           type: '',
+           type: SourceType.BACK.toString(),
         );
   }
 
@@ -43,20 +44,19 @@ implements CommonInterface{
   @override
   Widget body() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: SingleChildScrollView(
               child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          CustomTextField(
-                              isVisible: true,
-                              text: "ROOM SELECTION",
-                              colors: ColorUtils.color_black,
-                              fontWeight: FontWeight.bold,
-                              size: 15,
-                              isBold: true,
-                            ),
+          
+          Text("ROOM SELECTION",
+                    style: TextStyle(
+                      color: ColorUtils.color_labels,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      letterSpacing: 1.0),),
                             SizedBox(height:10),
           Row(children: [
              Expanded(
@@ -72,14 +72,18 @@ implements CommonInterface{
              ),
                              Expanded(
                                
-                                                        child: CustomTextField(
-                                isVisible: true,
-                                text: "SELECT A ROOM",
-                                colors: ColorUtils.color_red,
-                                fontWeight: FontWeight.bold,
-                                size: 14,
-                                isBold: true,
+                                child: Align(
+                        
+                                  alignment: Alignment.centerRight,
+                                   child: CustomTextField(
+                                  isVisible: true,
+                                  text: "SELECT A ROOM",
+                                  colors: ColorUtils.color_red,
+                                  fontWeight: FontWeight.bold,
+                                  size: 14,
+                                  isBold: true,
                             ),
+                                ),
                              ),
           ],)     ,
           SizedBox(height:10),
@@ -159,7 +163,9 @@ implements CommonInterface{
   
     @override
     void onClick(String type) {
-      // TODO: implement onClick
+      if(type==SourceType.BACK.toString()){
+        Navigator.of(context).pop();
+      }
     }
   
     @override

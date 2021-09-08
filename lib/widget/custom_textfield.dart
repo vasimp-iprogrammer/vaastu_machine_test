@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vastu_machine_test/utility/utils.dart';
 
 class CustomTextField extends StatelessWidget {
   String text;
@@ -34,7 +35,10 @@ class CustomTextField extends StatelessWidget {
                   fontSize: size, // MediaQuery.of(context).size.width / 16,
                   color: colors,
                   fontWeight: fontWeight,
-                  ))),
+                  fontFamily: isBold
+                      ? FontFamily.NOTOSANS_BOLD
+                      : FontFamily.NOTOSANS_REGULAR)
+                  )),
       visible: isVisible,
     );
   }
