@@ -4,8 +4,8 @@ import 'package:progress_dialog/progress_dialog.dart';
 //import 'package:progress_dialog/progress_dialog.dart';
 
 class CustomProgressDialog {
- late ProgressDialog _progressDialog;
- late BuildContext context;
+  late ProgressDialog _progressDialog;
+  late BuildContext context;
   CustomProgressDialog({required BuildContext context}) {
     _progressDialog = ProgressDialog(context, isDismissible: false);
     _progressDialog.style(
@@ -17,7 +17,7 @@ class CustomProgressDialog {
 
   showProgressDialog() {
     _progressDialog.show();
-  // _progressDialog.showPorgressDialog(context);
+    // _progressDialog.showPorgressDialog(context);
   }
 
   hideProgressDialog() {
@@ -28,7 +28,7 @@ class CustomProgressDialog {
         });
     });
 
-   //_progressDialog.hideProgressDialog(context);
+    //_progressDialog.hideProgressDialog(context);
   }
 
   isSHowing() {

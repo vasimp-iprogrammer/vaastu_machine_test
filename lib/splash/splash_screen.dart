@@ -29,7 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Text("Vaastu Check",style: TextStyle(
             color: Colors.white,
             fontSize: 40.0,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
+            fontFamily: FontFamily.NOTOSANS_BOLD
           ),),
         ),
       ),

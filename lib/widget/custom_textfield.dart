@@ -37,7 +37,9 @@ class CustomTextField extends StatelessWidget {
                   fontWeight: fontWeight,
                   fontFamily: isBold
                       ? FontFamily.NOTOSANS_BOLD
-                      : FontFamily.NOTOSANS_REGULAR)
+                      : FontFamily.NOTOSANS_REGULAR
+                  //fontFamily: FontFamily.NOTOSANS_Italic
+                      )
                   )),
       visible: isVisible,
     );

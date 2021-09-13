@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:vastu_machine_test/base/base_page.dart';
 import 'package:vastu_machine_test/compass_tool/compass_tool.dart';
 import 'package:vastu_machine_test/enums/connectivity_status.dart';
@@ -11,8 +12,7 @@ import 'package:vastu_machine_test/interfaces/common_interface.dart';
 import 'package:vastu_machine_test/utility/utils.dart';
 import 'package:vastu_machine_test/vaastu_score/view/vaastu_score_check.dart';
 import 'package:vastu_machine_test/widget/custom_image.dart';
-import 'package:vastu_machine_test/widget/custom_textfield.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:vastu_machine_test/widget/custom_textfield.dart'; 
 import 'package:video_player/video_player.dart';
 
 class HomePageScreen extends BasePage {
@@ -26,23 +26,18 @@ class _HomePageScreen extends BaseState<HomePageScreen>
   int _current = 0;
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
-  final List<String> images = [
-    'https://images.unsplash.com/photo-1586882829491-b81178aa622e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
-    'https://images.unsplash.com/photo-1586871608370-4adee64d1794?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2862&q=80',
-    'https://images.unsplash.com/photo-1586901533048-0e856dff2c0d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
-    'https://images.unsplash.com/photo-1586902279476-3244d8d18285?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
-    'https://images.unsplash.com/photo-1586943101559-4cdcf86a6f87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1556&q=80',
-    'https://images.unsplash.com/photo-1586951144438-26d4e072b891?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
-    'https://images.unsplash.com/photo-1586953983027-d7508a64f4bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
-  ];
+  final controller = PageController(viewportFraction: 0.8, keepPage: true);
+  // final List<String> images = [
+  //   'https://images.unsplash.com/photo-1586882829491-b81178aa622e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
+  //   'https://images.unsplash.com/photo-1586871608370-4adee64d1794?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2862&q=80',
+  //   'https://images.unsplash.com/photo-1586901533048-0e856dff2c0d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
+  //   'https://images.unsplash.com/photo-1586902279476-3244d8d18285?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
+  //   'https://images.unsplash.com/photo-1586943101559-4cdcf86a6f87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1556&q=80',
+  //   'https://images.unsplash.com/photo-1586951144438-26d4e072b891?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
+  //   'https://images.unsplash.com/photo-1586953983027-d7508a64f4bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
+  // ];
   @override
   Widget appBarLeftIcon() {
-    // return CustomImage(
-    //        size: 12,
-    //        assetPath: ASSETUTILS.ASSETS_BACK,
-    //         commonInterface: this,
-    //        type: SourceType.BACK.toString(),
-    //     );
     return Container();
   }
 
@@ -78,7 +73,6 @@ class _HomePageScreen extends BaseState<HomePageScreen>
             Container(
               child: GestureDetector(
                 onTap: () {
-                  print("Container clied");
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CompassToolScreen()));
                 },
@@ -119,7 +113,7 @@ class _HomePageScreen extends BaseState<HomePageScreen>
                               CustomTextField(
                                 isVisible: true,
                                 text: "Compass Tool",
-                                colors: ColorUtils.color_black,
+                                colors: ColorUtils.color_room_list_labels,
                                 fontWeight: FontWeight.bold,
                                 size: 14,
                                 isBold: true,
@@ -130,8 +124,8 @@ class _HomePageScreen extends BaseState<HomePageScreen>
                                 text: "Output Time: 1 min",
                                 colors: ColorUtils.color_labels_light,
                                 fontWeight: FontWeight.w400,
-                                size: 12,
-                                isBold: true,
+                                size: 11,
+                                isBold: false,
                               ),
                               SizedBox(height: 05),
                               CustomTextField(
@@ -141,7 +135,7 @@ class _HomePageScreen extends BaseState<HomePageScreen>
                                 colors: ColorUtils.color_labels,
                                 fontWeight: FontWeight.w400,
                                 size: 12,
-                                isBold: true,
+                                isBold: false,
                               ),
                             ],
                           ),
@@ -187,20 +181,20 @@ class _HomePageScreen extends BaseState<HomePageScreen>
                             CustomTextField(
                               isVisible: true,
                               text: "Vaastu Score Check",
-                              colors: ColorUtils.color_black,
+                              colors: ColorUtils.color_room_list_labels,
                               fontWeight: FontWeight.bold,
                               size: 14,
                               isBold: true,
                             ),
                             SizedBox(height: 5),
                             CustomTextField(
-                              isVisible: true,
-                              text: "Output Time: 1 min",
-                              colors: ColorUtils.color_labels_light,
-                              fontWeight: FontWeight.w400,
-                              size: 12,
-                              isBold: true,
-                            ),
+                                isVisible: true,
+                                text: "Output Time: 1 min",
+                                colors: ColorUtils.color_labels_light,
+                                fontWeight: FontWeight.w400,
+                                size: 11,
+                                isBold: false,
+                              ),
                             SizedBox(height: 05),
                             CustomTextField(
                               isVisible: true,
@@ -209,7 +203,7 @@ class _HomePageScreen extends BaseState<HomePageScreen>
                               colors: ColorUtils.color_labels,
                               fontWeight: FontWeight.w400,
                               size: 12,
-                              isBold: true,
+                              isBold: false,
                             ),
                           ],
                         ),
@@ -225,7 +219,7 @@ class _HomePageScreen extends BaseState<HomePageScreen>
                 Expanded(
                   flex: 1,
                   child: Text(
-                    "VIDEO",
+                    "VIDEOS",
                     style: TextStyle(
                         color: ColorUtils.color_labels,
                         fontWeight: FontWeight.bold,
@@ -249,61 +243,63 @@ class _HomePageScreen extends BaseState<HomePageScreen>
               ],
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
-              child: CarouselSlider.builder(
-                itemCount: images.length,
-                options: CarouselOptions(
-                  autoPlay: true,
-                  aspectRatio: 2.0,
-                  enlargeCenterPage: true,
-                ),
-                itemBuilder: (context, index, realIdx) {
-                  return Container(
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child:SizedBox(
+                height: 240,
+                child: PageView.builder(
+                  controller: controller,
+                  
+                  // itemCount: pages.length,
+                  itemBuilder: (_, index) {
+                   // return pages[index % pages.length];
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: ColorUtils.color_white,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Colors.white,
                     ),
                     child: Center(
-                        child: Column(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8)),
-                            //     child: Image.network(images[index],
-                            //   fit: BoxFit.fill,
-                            //  ),
-                            child: Image.asset(ASSETUTILS.ASSETS_PICK,
-                                height: 350, width: 300, fit: BoxFit.cover),
+                          child: Column(
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                  topRight: Radius.circular(8)),
+                              //     child: Image.network(images[index],
+                              //   fit: BoxFit.fill,
+                              //  ),
+                               child: Image.asset(ASSETUTILS.ASSETS_PICK,
+                                 width: 300,
+                                 fit: BoxFit.cover),
+                            ),
                           ),
-                        ),
-                        //               Flexible(
-                        //                                           child: AspectRatio(
-                        //   aspectRatio: _controller.value.aspectRatio,
-                        //   // Use the VideoPlayer widget to display the video.
-                        //   child: VideoPlayer(_controller),
-                        // ),
-                        //               ),
+                          //               Flexible(
+                          //                                           child: AspectRatio(
+                          //   aspectRatio: _controller.value.aspectRatio,
+                          //   // Use the VideoPlayer widget to display the video.
+                          //   child: VideoPlayer(_controller),
+                          // ),
+                          //               ),
 
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Ten things you should konw before puchansing a plot",
-                            style: TextStyle(
-                                color: ColorUtils.color_black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                            child: Text(
+                              "Ten things you should konw before puchansing a plot",
+                              style: TextStyle(
+                                  color: ColorUtils.color_room_list_labels,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12),
+                            ),
                           ),
-                        ),
                         Row(
                           children: [
                             Expanded(
                               child: Row(
                                 children: [
                                   CustomImage(
-                                    size: 10,
+                                    size: 8,
                                     assetPath: ASSETUTILS.ASSETS_ARROW_LIKE,
                                     commonInterface: this,
                                     type: SourceType.BACK.toString(),
@@ -320,7 +316,7 @@ class _HomePageScreen extends BaseState<HomePageScreen>
                               child: Row(
                                 children: [
                                   CustomImage(
-                                    size: 10,
+                                    size: 8,
                                     assetPath: ASSETUTILS.ASSETS_ARROW_VIEW,
                                     commonInterface: this,
                                     type: SourceType.BACK.toString(),
@@ -335,12 +331,28 @@ class _HomePageScreen extends BaseState<HomePageScreen>
                             ),
                           ],
                         )
-                      ],
+                        ],
                     )),
-                  );
-                },
+                  ),
+                      );
+                  },
+                ),
               ),
-            )
+            ),
+           Center(
+             child: SmoothPageIndicator(
+                  controller: controller,
+                  count: 6,
+                  effect: WormEffect(
+                    dotHeight: 5,
+                    dotWidth: 5,
+                    dotColor: ColorUtils.color_light_grey,
+                    activeDotColor: ColorUtils.color_red,
+                    type: WormType.normal,
+                    // strokeWidth: 5,
+                  ),
+                ),
+           ),
           ],
         ),
       ),

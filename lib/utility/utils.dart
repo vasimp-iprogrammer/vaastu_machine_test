@@ -1,4 +1,6 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+
 
 class ColorUtils {
   static const Color color_light_grey = Color(0xffececec);
@@ -34,7 +36,6 @@ class APPTITLES{
 }
 
 class ASSETUTILS{
-  static String ASSETS_BACK = "assets/icons/ic_back.jpg";
   static String ASSETS_COMPASS_TOOl = "assets/icons/compass_tool.jpg";
   static String ASSETS_VAASTU_SCRORE= "assets/icons/vaastu_score_check.png";
   static String ASSETS_COMPASS_TAG= "assets/icons/compass_tag.png";
@@ -59,8 +60,20 @@ class ApiEndPoints{
 }
 class Constants{
   static String SELECTED_ROOM_MAP="selectedRoomMap";
+
+
+  static Future<bool>  check() async {
+        var connectivityResult = await (Connectivity().checkConnectivity());
+        if (connectivityResult == ConnectivityResult.mobile) {
+          return true;
+        } else if (connectivityResult == ConnectivityResult.wifi) {
+          return true;
+        }
+        return false;
+      }
 }
 class FontFamily {
-  static String NOTOSANS_BOLD = 'NotoSans-Bold';
-  static String NOTOSANS_REGULAR = 'NotoSans-Regular';
+  static String NOTOSANS_BOLD = 'NotoSansBold';
+  static String NOTOSANS_REGULAR = 'NotoSansRegular';
+  static String NOTOSANS_Italic = 'NotoSansItalic';
 }

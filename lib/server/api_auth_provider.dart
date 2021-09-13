@@ -38,7 +38,7 @@ class ApiAuthProvider{
      //var client = http.Client();
     response = await http.get(Uri.parse(ApiEndPoints.BASE_URL+ApiEndPoints.ROOMLIST));
       final res= json.decode(response.body);
-    debugPrint(res.toString());
+  //  debugPrint(res.toString());
     return RoomListResponse.fromJson(res);
   }
   Future<CalculateVaastuScoreModel>getCalculateVaastuScore(var dataBody)async{

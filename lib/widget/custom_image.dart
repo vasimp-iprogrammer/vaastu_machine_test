@@ -8,7 +8,11 @@ class CustomImage extends StatelessWidget {
   CommonInterface commonInterface;
   String type;
 
-  CustomImage({required this.size, required this.assetPath, required this.commonInterface, required this.type});
+  CustomImage(
+      {required this.size,
+      required this.assetPath,
+      required this.commonInterface,
+      required this.type});
 
   @override
   Widget build(BuildContext context) {

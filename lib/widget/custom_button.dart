@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
       required this.typeOfClick,
       required this.buttonColor,
       required this.textColor,
-       required this.assets});
+      required this.assets});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,6 @@ class CustomButton extends StatelessWidget {
               child: new SizedBox(
                 height: 25,
                 width: 18,
-                
               ),
             ),
       label: Flexible(
@@ -43,18 +42,18 @@ class CustomButton extends StatelessWidget {
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: textColor,
-                ),
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: textColor,
+            ),
           ),
         ),
       ),
       style: ElevatedButton.styleFrom(
           primary: buttonColor,
           side: isValidated
-              ? BorderSide(color: ColorUtils.color_app_bar, width: 0.5)
-              : BorderSide(color: ColorUtils.color_labels, width: 0.6)),
+              ? BorderSide(color: ColorUtils.color_red, width: 0)
+              : BorderSide(color: ColorUtils.color_red, width: 0)),
       onPressed: () {
         commonInterface.onClick(typeOfClick);
       },

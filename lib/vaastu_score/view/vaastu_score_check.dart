@@ -79,12 +79,6 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // CustomTextField(isVisible: true,
-            // text: "ROOM SELECTOR",
-            // isBold: true, size: 14,
-            //  colors: ColorUtils.color_labels,
-            //  fontWeight: FontWeight.w600),
-
             Text(
               "ROOM SELECTOR",
               style: TextStyle(
@@ -94,13 +88,12 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
                   fontSize: 14,
                   letterSpacing: 1.0),
             ),
-
             SizedBox(height: 10),
             CustomTextField(
                 isVisible: true,
                 text:
                     "Select the room thar are present in each direction of your home by tapping on textboxes below:",
-                isBold: true,
+                isBold: false,
                 size: 12,
                 colors: ColorUtils.color_labels,
                 fontWeight: FontWeight.w400),
@@ -185,7 +178,11 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
             children: [
               Text(
                 "CALCULATE SCORE",
-                style: TextStyle(color: ColorUtils.color_white, fontSize: 16),
+                style: TextStyle(
+                  color: ColorUtils.color_white, 
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: FontFamily.NOTOSANS_REGULAR),
               ),
             ],
           )),
@@ -198,6 +195,8 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
         temp = selectedRoomMap[roomPositionList[index]];
 
         print("alredy has data $temp");
+      }else{
+        temp=[];
       }
     }
     List<dynamic> seletedRoom =
@@ -208,11 +207,12 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
         prevSelectedRoomList: temp,
       ),
     ));
-    print("after back =$seletedRoom");
+  //  print("after back =$seletedRoom");
 
     setState(() {
       if (seletedRoom.length > 0)
         selectedRoomMap[roomPositionList[index]] = seletedRoom;
+        print("map data 1 =$selectedRoomMap");
       addMap();
       checkMapSize();
     });
@@ -280,7 +280,7 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
 
     await Prefs.setString("selectedRoomMap", json.encode(selectedRoomMap));
     mapdata = Prefs.getString("selectedRoomMap");
-    //  print(selectedRoomMap=json.decode(mapdata));
+      print(selectedRoomMap=json.decode(mapdata));
   }
 
   Widget getTextWidgets(Map<String, dynamic> strings, index) {
@@ -293,7 +293,7 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
               text: "No Room\n Selected",
               isBold: false,
               size: 12,
-              colors: ColorUtils.color_labels,
+              colors: ColorUtils.color_labels_light,
               fontWeight: FontWeight.w400),
         );
       } else {
@@ -301,7 +301,11 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
           for (var i = 0; i < 2; i++) {
             list.add(new Text(
               selectedRoomMap[roomPositionList[index]][i],
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 12,
+              color: ColorUtils.color_labels_light,
+              fontFamily:FontFamily.NOTOSANS_REGULAR,
+              fontWeight: FontWeight.w400),
+              overflow: TextOverflow.ellipsis,
             ));
           }
         } else {
@@ -310,7 +314,12 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
               i++) {
             list.add(new Text(
               selectedRoomMap[roomPositionList[index]][i],
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 12,
+              color: ColorUtils.color_labels_light,
+              fontFamily:FontFamily.NOTOSANS_REGULAR,
+              fontWeight: FontWeight.w400),
+              
+              overflow: TextOverflow.ellipsis,
             ));
           }
         }
@@ -323,7 +332,7 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
             text: "No Room\nSelected",
             isBold: false,
             size: 12,
-            colors: ColorUtils.color_labels,
+            colors: ColorUtils.color_labels_light,
             fontWeight: FontWeight.w400),
       );
     }
@@ -334,11 +343,11 @@ class _VaastuScoreCheckScreen extends BaseState<VaastuScoreCheckScreen>
         selectedRoomMap[roomPositionList[index]].length > 2) {
       return CustomTextField(
           isVisible: true,
-          text: "${selectedRoomMap[roomPositionList[index]].length - 2}+more",
-          isBold: true,
-          size: 14,
-          colors: ColorUtils.color_labels,
-          fontWeight: FontWeight.w600);
+          text: "+${selectedRoomMap[roomPositionList[index]].length - 2} room",
+          isBold: false,
+          size: 12,
+          colors: ColorUtils.color_labels_light,
+          fontWeight: FontWeight.w400);
     } else {
       return CustomTextField(
           isVisible: true,
